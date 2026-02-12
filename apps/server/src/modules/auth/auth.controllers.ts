@@ -1,66 +1,65 @@
 import BaseController from '@Base/BaseController';
+import { authService } from './auth.service';
+import type { LoginInput, RegisterInput, UpdateProfileInput } from './auth.validators';
 
-/**
- * AuthController
- * @extends BaseController
- * @implements {asyncHandler}
- * @implements {ApiResponse}
- * @implements {httpStatus}
- * @description AuthController class is used to handle all auth related requests
- */
 class AuthController extends BaseController {
-  /**
-   * Register a new user
-   */
-  register = this.asyncHandler(async (req, res) => {
-    this.ApiResponse.success(res, {
-      statusCode: this.httpStatus.OK,
-      message: 'User registered successfully',
-      data: req.body,
-    });
-  });
-
-  /**
-   * Login a user
-   */
   login = this.asyncHandler(async (req, res) => {
+    const result = await authService.login(req.body as LoginInput);
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
-      message: 'User logged in successfully',
-      data: req.body,
+      message: 'Login successful',
+      data: result,
     });
   });
 
-  /**
-   * Logout a user
-   */
-  logout = this.asyncHandler(async (req, res) => {
+  register = this.asyncHandler(async (req, res) => {
+    const result = await authService.register(req.body as RegisterInput);
     this.ApiResponse.success(res, {
-      statusCode: this.httpStatus.OK,
-      message: 'User logged out successfully',
-      data: req.body,
+      statusCode: this.httpStatus.CREATED,
+      message: 'User registered successfully',
+      data: result,
     });
   });
 
-  /**
-   * verify token
-   */
+  getProfile = this.asyncHandler(async (req, res) => {
+    const user = await authService.getProfile(req.user!._id);
+    this.ApiResponse.success(res, {
+      statusCode: this.httpStatus.OK,
+      message: 'Profile fetched successfully',
+      data: user,
+    });
+  });
+
+  updateProfile = this.asyncHandler(async (req, res) => {
+    const user = await authService.updateProfile(req.user!._id, req.body as UpdateProfileInput);
+    this.ApiResponse.success(res, {
+      statusCode: this.httpStatus.OK,
+      message: 'Profile updated successfully',
+      data: user,
+    });
+  });
+
+  logout = this.asyncHandler(async (_req, res) => {
+    this.ApiResponse.success(res, {
+      statusCode: this.httpStatus.OK,
+      message: 'Logged out successfully',
+      data: null,
+    });
+  });
+
   verifyToken = this.asyncHandler(async (req, res) => {
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'Token verified successfully',
-      data: req.body,
+      data: { user: req.user },
     });
   });
 
-  /**
-   * refresh token
-   */
-  refreshToken = this.asyncHandler(async (req, res) => {
+  refreshToken = this.asyncHandler(async (_req, res) => {
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
-      message: 'Token refreshed successfully',
-      data: req.body,
+      message: 'Use login to get a new token',
+      data: null,
     });
   });
 }
