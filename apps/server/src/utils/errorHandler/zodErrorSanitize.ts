@@ -1,18 +1,19 @@
 import { ZodError } from 'zod';
 
-const zodErrorSanitize = (err: ZodError) => {
-  const errors = err.issues.reduce(
+interface IError {
+  path: string;
+  message: string;
+}
+
+const zodErrorSanitize = (err: ZodError): Record<string, IError> => {
+  return err.issues.reduce(
     (acc, cur) => {
-      const path = cur.path[cur.path.length - 1];
-
-      // acc[path] = `${path} is ${cur.message}!`;
-
+      const path = (cur.path[cur.path.length - 1] ?? 'field') as string;
+      acc[path] = { path, message: cur.message };
       return acc;
     },
-    {} as Record<string, unknown>
+    {} as Record<string, IError>
   );
-
-  return errors;
 };
 
 export default zodErrorSanitize;

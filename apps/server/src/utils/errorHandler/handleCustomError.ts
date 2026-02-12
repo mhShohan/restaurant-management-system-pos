@@ -1,30 +1,26 @@
 import AppError from './AppError';
 
-const handleCustomError = (err: AppError) => {
-  let errorResponse: Record<string, unknown> | null = {};
+interface IError {
+  path: string;
+  message: string;
+}
 
+const handleCustomError = (err: AppError): Record<string, IError> => {
   if (err.type === 'WrongCredentials') {
-    errorResponse = {
-      email: {
-        path: 'email',
-        message: 'Wrong Credentials',
-      },
-      password: {
-        path: 'password',
-        message: 'Wrong Credentials',
-      },
+    return {
+      email: { path: 'email', message: 'Wrong Credentials' },
+      password: { path: 'password', message: 'Wrong Credentials' },
     };
   }
-
   if (err.type === 'Unauthorize') {
-    errorResponse = { isAuthenticated: false };
+    return {
+      isAuthenticated: { path: 'auth', message: 'Unauthorize! please login' },
+    };
   }
-
-  if (err.type === 'NOT_FOUND') {
-    errorResponse = {};
+  if (err.type === 'NOT_FOUND' || err.type === 'Validation') {
+    return {};
   }
-
-  return errorResponse;
+  return {};
 };
 
 export default handleCustomError;
