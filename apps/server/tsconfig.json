@@ -1,0 +1,18 @@
+{
+  "extends": "@tools/typescript/base.json",
+  "compilerOptions": {
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "paths": {
+      "@config": ["./src/config/index"],
+      "@routes/*": ["./src/routes/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@middleware/*": ["./src/middleware/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@Base/*": ["./src/Base/*"]
+    }
+  }
+}

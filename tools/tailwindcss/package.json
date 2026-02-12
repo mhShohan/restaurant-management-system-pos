@@ -1,0 +1,17 @@
+{
+  "name": "@tools/tailwindcss",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "exports": {
+    ".": "./src/tailwindcss.config.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tailwindcss": "^3.4.17",
+    "@tools/typescript": "workspace:*"
+  },
+  "dependencies": {
+    "tailwindcss-animate": "^1.0.5"
+  }
+}

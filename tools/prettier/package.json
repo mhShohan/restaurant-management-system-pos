@@ -1,0 +1,32 @@
+{
+  "name": "@tools/prettier",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./prettier.config.js",
+    "./base": "./prettier.config.js",
+    "./react": "./prettier.react.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "prettier.config.js",
+    "prettier.react.js",
+    ".prettierrc.js",
+    ".prettierignore"
+  ],
+  "devDependencies": {
+    "prettier": "^3.7.4",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "prettier-plugin-tailwindcss": "^0.6.9"
+  },
+  "peerDependencies": {
+    "prettier": ">=3.0.0"
+  },
+  "keywords": [
+    "prettier",
+    "config",
+    "format",
+    "code-style"
+  ]
+}

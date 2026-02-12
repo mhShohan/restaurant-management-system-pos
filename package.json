@@ -1,0 +1,42 @@
+{
+  "name": "monorepo-starter-kit",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:client": "turbo run dev --filter=client",
+    "dev:admin": "turbo run dev --filter=admin",
+    "dev:server": "turbo run dev --filter=server",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md,mdx,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md,mdx,yaml,yml}\"",
+    "check-types": "turbo run check-types",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@tools/prettier": "workspace:*",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.7.4",
+    "turbo": "^2.7.2",
+    "typescript": "5.9.2"
+  },
+  "prettier": "@tools/prettier",
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx,json,css,md,mdx,yaml,yml}": [
+      "prettier --write"
+    ],
+    "apps/**/*.{ts,tsx,js,jsx}": [
+      "bash -c 'turbo run lint --filter=client'",
+      "bash -c 'turbo run lint --filter=admin'",
+      "bash -c 'turbo run lint --filter=server'"
+    ],
+    "packages/**/*.{ts,tsx,js,jsx}": [
+      "bash -c 'turbo run lint --filter=@workspace/ui'"
+    ]
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  }
+}

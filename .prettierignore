@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.next/
+out/
+dist/
+build/
+coverage/
+.turbo/
+
+# Environment files
+.env*
+!.env.example
+
+# Lock files
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Generated files
+.tsbuildinfo
+*.d.ts.map
+
+# Test outputs
+test-results/
+playwright-report/
