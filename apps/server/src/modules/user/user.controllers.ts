@@ -1,14 +1,18 @@
 import BaseController from '@Base/BaseController';
+
+import type { UserRole } from './user.model';
 import { userService } from './user.service';
 import type { CreateUserInput, UpdateUserInput } from './user.validators';
-import type { UserRole } from './user.model';
 
 class UserController extends BaseController {
   getAll = this.asyncHandler(async (req, res) => {
     const role = req.query.role as UserRole | undefined;
-    const status = req.query.status as import('./user.model').UserStatus | undefined;
+    const status = req.query.status as
+      | import('./user.model').UserStatus
+      | undefined;
     const search = req.query.search as string | undefined;
     const users = await userService.getAll({ role, status, search });
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'Users fetched successfully',
@@ -18,6 +22,7 @@ class UserController extends BaseController {
 
   getById = this.asyncHandler(async (req, res) => {
     const user = await userService.getById(req.params.id as string);
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'User fetched successfully',
@@ -27,6 +32,7 @@ class UserController extends BaseController {
 
   create = this.asyncHandler(async (req, res) => {
     const user = await userService.create(req.body as CreateUserInput);
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.CREATED,
       message: 'User created successfully',
@@ -35,7 +41,11 @@ class UserController extends BaseController {
   });
 
   update = this.asyncHandler(async (req, res) => {
-    const user = await userService.update(req.params.id as string, req.body as UpdateUserInput);
+    const user = await userService.update(
+      req.params.id as string,
+      req.body as UpdateUserInput
+    );
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'User updated successfully',
@@ -45,6 +55,7 @@ class UserController extends BaseController {
 
   delete = this.asyncHandler(async (req, res) => {
     await userService.delete(req.params.id as string);
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'User deleted successfully',
@@ -54,6 +65,7 @@ class UserController extends BaseController {
 
   toggleStatus = this.asyncHandler(async (req, res) => {
     const user = await userService.toggleStatus(req.params.id as string);
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'User status toggled successfully',
@@ -62,7 +74,10 @@ class UserController extends BaseController {
   });
 
   getByRole = this.asyncHandler(async (req, res) => {
-    const users = await userService.getByRole((req.params.role as string) as UserRole);
+    const users = await userService.getByRole(
+      req.params.role as string as UserRole
+    );
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'Users fetched successfully',

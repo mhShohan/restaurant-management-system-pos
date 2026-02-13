@@ -28,7 +28,6 @@
     ],
     "apps/**/*.{ts,tsx,js,jsx}": [
       "bash -c 'turbo run lint --filter=client'",
-      "bash -c 'turbo run lint --filter=admin'",
       "bash -c 'turbo run lint --filter=server'"
     ],
     "packages/**/*.{ts,tsx,js,jsx}": [

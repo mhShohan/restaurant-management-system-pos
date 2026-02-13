@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node ./dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
+    "seed": "ts-node-dev --transpile-only -r tsconfig-paths/register src/scripts/seed.ts",
     "build": "tsc",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",

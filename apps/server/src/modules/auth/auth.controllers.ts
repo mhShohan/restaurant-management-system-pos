@@ -1,10 +1,16 @@
 import BaseController from '@Base/BaseController';
+
 import { authService } from './auth.service';
-import type { LoginInput, RegisterInput, UpdateProfileInput } from './auth.validators';
+import type {
+  LoginInput,
+  RegisterInput,
+  UpdateProfileInput,
+} from './auth.validators';
 
 class AuthController extends BaseController {
   login = this.asyncHandler(async (req, res) => {
     const result = await authService.login(req.body as LoginInput);
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'Login successful',
@@ -14,6 +20,7 @@ class AuthController extends BaseController {
 
   register = this.asyncHandler(async (req, res) => {
     const result = await authService.register(req.body as RegisterInput);
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.CREATED,
       message: 'User registered successfully',
@@ -23,6 +30,7 @@ class AuthController extends BaseController {
 
   getProfile = this.asyncHandler(async (req, res) => {
     const user = await authService.getProfile(req.user!._id);
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'Profile fetched successfully',
@@ -31,7 +39,11 @@ class AuthController extends BaseController {
   });
 
   updateProfile = this.asyncHandler(async (req, res) => {
-    const user = await authService.updateProfile(req.user!._id, req.body as UpdateProfileInput);
+    const user = await authService.updateProfile(
+      req.user!._id,
+      req.body as UpdateProfileInput
+    );
+
     this.ApiResponse.success(res, {
       statusCode: this.httpStatus.OK,
       message: 'Profile updated successfully',
