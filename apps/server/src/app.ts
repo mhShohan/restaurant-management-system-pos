@@ -1,6 +1,7 @@
 import { config } from '@config';
 import { ApiResponse } from '@lib/ApiResponse';
 import globalErrorHandler from '@middleware/globalErrorHandler';
+import notFound from '@middleware/notFound';
 import rootRouter from '@routes/index';
 import compression from 'compression';
 import cors from 'cors';
@@ -55,6 +56,9 @@ class App {
 
     // API routes
     this.app.use('/api/v1', rootRouter);
+
+    // 404 for unmatched routes
+    this.app.use(notFound);
   }
 
   private initializeErrorHandling(): void {
