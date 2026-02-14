@@ -1,11 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import type { Order, PaymentMethod } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
 import { Banknote, CreditCard, Smartphone } from 'lucide-react';
 import { useState } from 'react';
 

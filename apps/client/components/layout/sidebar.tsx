@@ -1,11 +1,11 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { UserRole } from '@/lib/types';
-import { cn } from '@/lib/utils';
 import { useAuthStore, useUIStore } from '@/stores';
 
+import { Button } from '@workspace/ui/components/button';
+import { ScrollArea } from '@workspace/ui/components/scroll-area';
+import { cn } from '@workspace/ui/lib/utils';
 import {
   ChevronLeft,
   ChevronRight,

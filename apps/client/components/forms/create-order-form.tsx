@@ -1,21 +1,21 @@
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAvailableTables, useMenuItems } from '@/hooks';
 import { useSettings } from '@/hooks/use-settings';
 import type { MenuItem, OrderType } from '@/lib/types';
 import { formatCurrency } from '@/lib/utils';
 import { useOrderStore } from '@/stores';
 
+import { Badge } from '@workspace/ui/components/badge';
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
+import { ScrollArea } from '@workspace/ui/components/scroll-area';
+import { Separator } from '@workspace/ui/components/separator';
+import { toast } from '@workspace/ui/components/sonner';
+import { Tabs, TabsList, TabsTrigger } from '@workspace/ui/components/tabs';
 import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 interface CreateOrderFormProps {
   onSubmit: (data: Record<string, unknown>) => void;
@@ -146,7 +146,7 @@ export function CreateOrderForm({ onSubmit, isLoading }: CreateOrderFormProps) {
           ))}
         </div>
 
-        <ScrollArea className='h-[400px]'>
+        <ScrollArea className='h-100'>
           <div className='grid grid-cols-2 gap-2'>
             {filteredItems?.map((item) => (
               <button
@@ -176,7 +176,7 @@ export function CreateOrderForm({ onSubmit, isLoading }: CreateOrderFormProps) {
           </Button>
         </div>
 
-        <ScrollArea className='h-[300px] rounded-lg border p-4'>
+        <ScrollArea className='h-75 rounded-lg border p-4'>
           {currentOrder.items.length === 0 ? (
             <p className='text-muted-foreground py-8 text-center'>
               No items added yet

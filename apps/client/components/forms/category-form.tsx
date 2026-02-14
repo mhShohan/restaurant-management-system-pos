@@ -1,8 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   useCategories,
   useCreateCategory,
@@ -10,9 +7,12 @@ import {
   useUpdateCategory,
 } from '@/hooks';
 
+import { Button } from '@workspace/ui/components/button';
+import { Input } from '@workspace/ui/components/input';
+import { Label } from '@workspace/ui/components/label';
+import { toast } from '@workspace/ui/components/sonner';
 import { Loader2, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { toast } from 'sonner';
 
 export function CategoryForm() {
   const { data: categories, isLoading } = useCategories();
@@ -138,7 +138,7 @@ export function CategoryForm() {
 
       <div className='space-y-2'>
         <Label>Existing Categories</Label>
-        <div className='max-h-[300px] space-y-2 overflow-y-auto'>
+        <div className='max-h-75 space-y-2 overflow-y-auto'>
           {isLoading ? (
             <div className='py-4 text-center'>Loading...</div>
           ) : (

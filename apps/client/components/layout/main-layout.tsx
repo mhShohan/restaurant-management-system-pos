@@ -1,7 +1,8 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { useUIStore } from '@/stores';
+
+import { cn } from '@workspace/ui/lib/utils';
 
 import { Header } from './header';
 import { Sidebar } from './sidebar';
