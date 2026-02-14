@@ -4,26 +4,28 @@ import User from '@modules/user/user.model';
 import { PasswordUtil } from '@utils/PasswordUtil';
 import { logger } from '@utils/logger';
 
-const ADMIN_EMAIL = 'admin@restaurant.com';
-const ADMIN_PASSWORD = 'admin123';
+const defaultAdmin = {
+  EMAIL: 'admin@restaurant.com',
+  PASSWORD: 'admin123',
+};
 
 async function seed() {
   try {
     await connectDB();
 
-    const existingAdmin = await User.findOne({ email: ADMIN_EMAIL });
+    const existingAdmin = await User.findOne({ email: defaultAdmin.EMAIL });
     if (existingAdmin) {
-      logger.info(`Admin user already exists: ${ADMIN_EMAIL}`);
+      logger.info(`Admin user already exists: ${defaultAdmin.EMAIL}`);
     } else {
-      const hashedPassword = await PasswordUtil.hash(ADMIN_PASSWORD);
+      const hashedPassword = await PasswordUtil.hash(defaultAdmin.PASSWORD);
       await User.create({
         name: 'Admin',
-        email: ADMIN_EMAIL,
+        email: defaultAdmin.EMAIL,
         password: hashedPassword,
         role: 'admin',
         status: 'active',
       });
-      logger.info(`Admin user created: ${ADMIN_EMAIL}`);
+      logger.info(`Admin user created: ${defaultAdmin.EMAIL}`);
     }
 
     const settings = await RestaurantSettings.findOne();
@@ -32,7 +34,7 @@ async function seed() {
         name: 'My Restaurant',
         address: '',
         phone: '',
-        email: ADMIN_EMAIL,
+        email: defaultAdmin.EMAIL,
         taxPercentage: 0,
         serviceChargePercentage: 0,
         currency: 'USD',
