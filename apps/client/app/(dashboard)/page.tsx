@@ -1,6 +1,15 @@
 'use client';
 
 import {
+  HourlyOrdersChart,
+  OrderStatusChart,
+  PaymentMethodChart,
+  RevenueTrendChart,
+  SalesByCategoryChart,
+  TopSellingItemsChart,
+  WeeklyComparisonCard,
+} from '@/components/charts';
+import {
   useActiveOrders,
   useDashboardStats,
   useTodayOrders,
@@ -18,6 +27,13 @@ import {
 import { ScrollArea } from '@workspace/ui/components/scroll-area';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@workspace/ui/components/tabs';
+import {
+  BarChart3,
   CheckCircle,
   ChefHat,
   Clock,
@@ -26,19 +42,21 @@ import {
   TrendingUp,
 } from 'lucide-react';
 
+interface StatCardProps {
+  title: string;
+  value: string;
+  icon: React.ElementType;
+  description?: string;
+  loading: boolean;
+}
+
 function StatCard({
   title,
   value,
   icon: Icon,
   description,
   loading,
-}: {
-  title: string;
-  value: string;
-  icon: React.ElementType;
-  description?: string;
-  loading: boolean;
-}) {
+}: StatCardProps) {
   return (
     <Card className='overflow-hidden transition-shadow hover:shadow-md'>
       <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
@@ -134,7 +152,7 @@ export default function DashboardPage() {
             <CardTitle>Recent Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className='h-75'>
+            <ScrollArea className='h-[300px]'>
               <div className='space-y-4'>
                 {ordersLoading ? (
                   Array.from({ length: 5 }).map((_, i) => (
@@ -177,7 +195,7 @@ export default function DashboardPage() {
             <CardTitle>Active Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className='h-75'>
+            <ScrollArea className='h-[300px]'>
               <div className='space-y-4'>
                 {activeOrdersLoading ? (
                   Array.from({ length: 5 }).map((_, i) => (
@@ -244,6 +262,56 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Analytics Section */}
+      <div className='space-y-6'>
+        <div className='flex items-center gap-2'>
+          <BarChart3 className='text-primary h-6 w-6' />
+          <h2 className='text-xl font-semibold tracking-tight'>
+            Analytics &amp; Reports
+          </h2>
+        </div>
+
+        <Tabs defaultValue='overview' className='space-y-6'>
+          <TabsList>
+            <TabsTrigger value='overview'>Overview</TabsTrigger>
+            <TabsTrigger value='sales'>Sales</TabsTrigger>
+            <TabsTrigger value='orders'>Orders</TabsTrigger>
+            <TabsTrigger value='items'>Top Items</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value='overview' className='space-y-6'>
+            <WeeklyComparisonCard />
+            <div className='grid gap-6 lg:grid-cols-2'>
+              <RevenueTrendChart days={7} title='Revenue Trend (7 Days)' />
+              <SalesByCategoryChart />
+            </div>
+            <div className='grid gap-6 lg:grid-cols-2'>
+              <PaymentMethodChart />
+              <OrderStatusChart />
+            </div>
+          </TabsContent>
+
+          <TabsContent value='sales' className='space-y-6'>
+            <RevenueTrendChart days={30} title='Revenue Trend (30 Days)' />
+            <div className='grid gap-6 lg:grid-cols-2'>
+              <SalesByCategoryChart />
+              <PaymentMethodChart />
+            </div>
+          </TabsContent>
+
+          <TabsContent value='orders' className='space-y-6'>
+            <div className='grid gap-6 lg:grid-cols-2'>
+              <HourlyOrdersChart />
+              <OrderStatusChart />
+            </div>
+          </TabsContent>
+
+          <TabsContent value='items' className='space-y-6'>
+            <TopSellingItemsChart limit={10} />
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }

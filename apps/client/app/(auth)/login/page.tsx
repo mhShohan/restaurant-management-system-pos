@@ -17,6 +17,7 @@ import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { toast } from '@workspace/ui/components/sonner';
 import { Loader2, Utensils } from 'lucide-react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
@@ -57,9 +58,15 @@ export default function LoginPage() {
         <ThemeToggle />
       </div>
       <Card className='shadow-card md:shadow-card-hover w-full max-w-md border-0 transition-shadow'>
-        <CardHeader className='space-y-1 pb-2 text-center'>
-          <div className='bg-primary mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-xl'>
-            <Utensils className='text-primary-foreground h-7 w-7' />
+        <CardHeader className='pb-2 text-center'>
+          <div className='mx-auto flex h-14 w-14 items-center justify-center rounded-xl'>
+            <Image
+              src='/icons/restaurant.png'
+              alt='Logo'
+              width={400}
+              height={400}
+              className='h-full w-full'
+            />
           </div>
           <CardTitle className='text-2xl font-semibold tracking-tight'>
             Restaurant POS

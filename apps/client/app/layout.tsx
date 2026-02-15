@@ -21,6 +21,12 @@ const fontMono = IBM_Plex_Mono({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
 });
 
+export const metadata = {
+  title: 'Restaurant Dashboard',
+  description:
+    'A comprehensive dashboard for restaurant management, providing insights into sales, orders, and customer behavior.',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

@@ -219,3 +219,49 @@ export interface CreatePaymentInput {
   transactionId?: string;
   notes?: string;
 }
+
+// Analytics types
+export interface RevenueTrendItem {
+  date: string;
+  revenue: number;
+  orders: number;
+}
+
+export interface SalesByCategoryItem {
+  categoryId: string;
+  category: string;
+  totalSales: number;
+  orderCount: number;
+}
+
+export interface RevenueByPaymentItem {
+  method: PaymentMethod;
+  revenue: number;
+  count: number;
+}
+
+export interface HourlyOrdersItem {
+  hour: number;
+  orders: number;
+  revenue: number;
+}
+
+export interface TopSellingItem {
+  itemId: string;
+  itemName: string;
+  category: string;
+  quantitySold: number;
+  revenue: number;
+}
+
+export interface OrderTypeDistributionItem {
+  orderType: OrderType;
+  count: number;
+  revenue: number;
+}
+
+export interface WeeklyComparison {
+  thisWeek: { revenue: number; orders: number };
+  lastWeek: { revenue: number; orders: number };
+  growth: number;
+}
