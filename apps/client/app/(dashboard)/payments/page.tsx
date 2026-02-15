@@ -66,7 +66,7 @@ function PaymentList({
 }) {
   const { data: settings } = useSettings();
   return (
-    <ScrollArea className='h-[500px]'>
+    <ScrollArea className='h-125'>
       <div className='space-y-3'>
         {items.map((payment) => {
           const Icon = getPaymentIcon(payment.method);

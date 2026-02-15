@@ -325,7 +325,7 @@ export default function OrdersPage() {
         </TabsList>
 
         <TabsContent value='all' className='space-y-4'>
-          <ScrollArea className='h-[600px]'>
+          <ScrollArea className='h-150'>
             {isLoading ? (
               <div className='space-y-4'>
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -348,7 +348,7 @@ export default function OrdersPage() {
           ['pending', 'preparing', 'ready', 'served', 'completed'] as const
         ).map((status) => (
           <TabsContent key={status} value={status} className='space-y-4'>
-            <ScrollArea className='h-[600px]'>
+            <ScrollArea className='h-150'>
               {filterOrders(status).length > 0 ? (
                 filterOrders(status).map((order) => (
                   <OrderCard key={order._id} order={order} />

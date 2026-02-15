@@ -27,7 +27,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        'bg-background/95 supports-[backdrop-filter]:bg-background/80 border-border fixed right-0 top-0 z-30 h-16 border-b backdrop-blur transition-all duration-300',
+        'bg-background/95 border-border fixed right-0 top-0 z-30 h-16 border-b backdrop-blur transition-all duration-300',
         sidebarOpen ? 'left-64' : 'left-16'
       )}
     >

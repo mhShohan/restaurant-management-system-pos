@@ -134,7 +134,7 @@ export default function DashboardPage() {
             <CardTitle>Recent Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className='h-[300px]'>
+            <ScrollArea className='h-75'>
               <div className='space-y-4'>
                 {ordersLoading ? (
                   Array.from({ length: 5 }).map((_, i) => (
@@ -177,7 +177,7 @@ export default function DashboardPage() {
             <CardTitle>Active Orders</CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className='h-[300px]'>
+            <ScrollArea className='h-75'>
               <div className='space-y-4'>
                 {activeOrdersLoading ? (
                   Array.from({ length: 5 }).map((_, i) => (

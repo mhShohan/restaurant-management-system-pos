@@ -241,7 +241,7 @@ export default function UsersPage() {
           <CardTitle>All Users</CardTitle>
         </CardHeader>
         <CardContent>
-          <ScrollArea className='h-[600px]'>
+          <ScrollArea className='h-150'>
             {isLoading ? (
               <div className='space-y-3'>
                 {Array.from({ length: 5 }).map((_, i) => (
