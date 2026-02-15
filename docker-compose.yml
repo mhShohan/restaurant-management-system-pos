@@ -1,0 +1,43 @@
+services:
+  mongodb:
+    image: mongodb/mongodb-community-server
+    container_name: restaurant-pos-database
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  server:
+    container_name: restaurant-pos-server
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      NODE_ENV: production
+      PORT: "5000"
+      LOCAL_MONGO_URI: mongodb://mongodb:27017/restaurant-pos
+      JWT_ACCESS_SECRET: your_jwt_access_secret_key
+      JWT_EXPIRES_IN: 1d
+      LOG_LEVEL: info
+      CORS_ORIGIN: "*"
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+  client:
+    container_name: restaurant-pos-client
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:5000/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:

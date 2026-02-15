@@ -1,0 +1,34 @@
+# Dependencies and build outputs
+node_modules
+**/node_modules
+**/.next
+**/dist
+.turbo
+
+# Git and env (do not bake secrets into image)
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+
+# IDE and OS
+.cursor
+.vscode
+.idea
+*.log
+.DS_Store
+
+# Docs and plans (not needed in image)
+*.md
+!README.md
+.cursor
+plans
+
+# Test and coverage
+coverage
+**/__tests__
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
