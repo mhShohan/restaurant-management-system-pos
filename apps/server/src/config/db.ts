@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 const connectDB = async (): Promise<void> => {
   try {
-    const conn = await mongoose.connect(config.LOCAL_MONGO_URI);
+    const conn = await mongoose.connect(config.CLOUD_MONGO_URI);
 
     logger.info(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
