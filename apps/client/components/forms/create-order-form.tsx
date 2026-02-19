@@ -116,9 +116,15 @@ export function CreateOrderForm({ onSubmit, isLoading }: CreateOrderFormProps) {
               value={currentOrder.tableId ?? ''}
               onChange={(e) => setTableId(e.target.value || undefined)}
             >
-              <option value=''>Select a table</option>
+              <option className='text-black' value=''>
+                Select a table
+              </option>
               {tables?.map((table) => (
-                <option key={table._id} value={table._id}>
+                <option
+                  className='text-black'
+                  key={table._id}
+                  value={table._id}
+                >
                   Table {table.tableNumber} (Capacity: {table.capacity})
                 </option>
               ))}

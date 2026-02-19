@@ -1,5 +1,6 @@
 'use client';
 
+import { storeAccessToken } from '@/app/actions';
 import { authApi } from '@/lib/api';
 import type { LoginInput } from '@/lib/types';
 import { useAuthStore } from '@/stores';
@@ -12,9 +13,10 @@ export function useLogin() {
 
   return useMutation({
     mutationFn: (data: LoginInput) => authApi.login(data),
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       if (response.success && response.data) {
         setAuth(response.data.user, response.data.token);
+        await storeAccessToken(response.data.token);
         queryClient.setQueryData(['user'], response.data.user);
       }
     },

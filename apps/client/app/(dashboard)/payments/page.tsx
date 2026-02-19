@@ -120,7 +120,7 @@ export default function PaymentsPage() {
         <h2 className='text-3xl font-bold tracking-tight'>Payments</h2>
       </div>
 
-      {paymentSummary && paymentSummary.length > 0 && (
+      {/* {paymentSummary && paymentSummary.length > 0 && (
         <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
           {(
             paymentSummary as {
@@ -152,7 +152,7 @@ export default function PaymentsPage() {
             );
           })}
         </div>
-      )}
+      )} */}
 
       <Tabs defaultValue='today'>
         <TabsList>
