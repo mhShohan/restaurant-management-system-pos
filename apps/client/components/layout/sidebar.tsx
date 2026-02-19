@@ -1,5 +1,6 @@
 'use client';
 
+import { clearAccessToken } from '@/app/actions';
 import { UserRole } from '@/lib/types';
 import { useAuthStore, useUIStore } from '@/stores';
 
@@ -19,7 +20,7 @@ import {
   Utensils,
 } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const navItems: {
   label: string;
@@ -80,6 +81,13 @@ export function Sidebar() {
   const { sidebarOpen, toggleSidebar } = useUIStore();
   const { user, logout } = useAuthStore();
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await clearAccessToken();
+    logout();
+    router.push('/login');
+  };
 
   const filtered = navItems.filter((item) =>
     user ? item.roles.includes(user.role) : false
@@ -155,7 +163,7 @@ export function Sidebar() {
               'text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-destructive w-full justify-start',
               !sidebarOpen && 'justify-center px-0'
             )}
-            onClick={logout}
+            onClick={handleLogout}
           >
             <LogOut size={18} className={cn(sidebarOpen && 'mr-2')} />
             {sidebarOpen && <span>Logout</span>}

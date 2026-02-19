@@ -2,7 +2,6 @@
 
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useLogin } from '@/hooks/use-auth';
-import { useAuthStore } from '@/stores';
 
 import { Alert, AlertDescription } from '@workspace/ui/components/alert';
 import { Button } from '@workspace/ui/components/button';
@@ -16,22 +15,17 @@ import {
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { toast } from '@workspace/ui/components/sonner';
-import { Loader2, Utensils } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function LoginPage() {
   const router = useRouter();
   const loginMutation = useLogin();
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const [email, setEmail] = useState('admin@restaurant.com');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
-
-  useEffect(() => {
-    if (isAuthenticated) router.replace('/');
-  }, [isAuthenticated, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

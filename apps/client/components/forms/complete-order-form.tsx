@@ -30,7 +30,7 @@ const PAYMENT_METHODS: {
 }[] = [
   { value: 'cash', label: 'Cash', icon: Banknote },
   { value: 'card', label: 'Card', icon: CreditCard },
-  { value: 'upi', label: 'UPI', icon: Smartphone },
+  // { value: 'upi', label: 'UPI', icon: Smartphone },
 ];
 
 export function CompleteOrderForm({
