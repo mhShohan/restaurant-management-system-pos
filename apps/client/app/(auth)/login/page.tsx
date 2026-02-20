@@ -3,7 +3,6 @@
 import { ThemeToggle } from '@/components/theme-toggle';
 import { useLogin } from '@/hooks/use-auth';
 
-import { Alert, AlertDescription } from '@workspace/ui/components/alert';
 import { Button } from '@workspace/ui/components/button';
 import {
   Card,
@@ -15,34 +14,35 @@ import {
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { toast } from '@workspace/ui/components/sonner';
-import { Loader2 } from 'lucide-react';
+import { LoaderPinwheelIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 
 export default function LoginPage() {
   const router = useRouter();
   const loginMutation = useLogin();
-  const [email, setEmail] = useState('admin@restaurant.com');
-  const [password, setPassword] = useState('admin123');
-  const [error, setError] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: 'admin@restaurant.com',
+      password: 'admin123',
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    if (!email || !password) {
-      setError('Please enter both email and password');
-      return;
-    }
+  const onSubmit = async (data: FieldValues) => {
     try {
-      await loginMutation.mutateAsync({ email, password });
+      await loginMutation.mutateAsync({
+        email: data.email,
+        password: data.password,
+      });
       toast.success('Login successful!');
       router.replace('/');
     } catch (err: unknown) {
-      const msg =
-        (err as { response?: { data?: { message?: string } } })?.response?.data
-          ?.message ?? 'Login failed';
-      setError(msg);
+      toast.error('Login failed. Please check your credentials and try again.');
     }
   };
 
@@ -68,35 +68,34 @@ export default function LoginPage() {
           <CardDescription>Sign in to your account</CardDescription>
         </CardHeader>
         <CardContent className='pt-2'>
-          {error && (
-            <Alert variant='destructive' className='mb-4'>
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-          <form onSubmit={handleSubmit} className='space-y-4'>
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
             <div className='space-y-2'>
               <Label htmlFor='email'>Email</Label>
               <Input
                 id='email'
-                type='email'
-                placeholder='name@restaurant.com'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder='Enter your email'
+                {...register('email', { required: 'Email is required' })}
                 disabled={loginMutation.isPending}
                 className='h-10'
               />
+              {errors.email && (
+                <p className='text-sm text-red-500'>{errors.email.message}</p>
+              )}
             </div>
             <div className='space-y-2'>
               <Label htmlFor='password'>Password</Label>
               <Input
                 id='password'
-                type='password'
-                placeholder='••••••••'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                placeholder='Enter your password'
+                {...register('password', { required: 'Password is required' })}
                 disabled={loginMutation.isPending}
                 className='h-10'
               />
+              {errors.password && (
+                <p className='text-sm text-red-500'>
+                  {errors.password.message}
+                </p>
+              )}
             </div>
             <Button
               type='submit'
@@ -105,16 +104,18 @@ export default function LoginPage() {
             >
               {loginMutation.isPending ? (
                 <>
-                  <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                  Signing in...
+                  <LoaderPinwheelIcon className='mr-2 h-4 w-4 animate-spin' />
+                  Logging in...
                 </>
               ) : (
-                'Sign In'
+                'Login'
               )}
             </Button>
           </form>
           <div className='bg-muted/50 text-muted-foreground mt-5 rounded-lg px-3 py-2 text-center text-xs'>
-            <p className='text-foreground/80 font-medium'>Demo</p>
+            <p className='text-foreground/80 font-medium'>
+              Testing Credentials
+            </p>
             <p>admin@restaurant.com / admin123</p>
           </div>
         </CardContent>
