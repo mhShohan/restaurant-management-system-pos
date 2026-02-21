@@ -37,9 +37,10 @@ import {
   TabsTrigger,
 } from '@workspace/ui/components/tabs';
 import { Leaf, Pencil, Plus, Search, Trash2 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function MenuPage() {
+  const [searchText, setSearchText] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
@@ -120,10 +121,29 @@ export default function MenuPage() {
     setIsItemDialogOpen(true);
   };
 
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      setSearchQuery(searchText);
+    }, 700);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchText]);
+
   return (
     <div className='space-y-6'>
       <div className='flex items-center justify-between'>
-        <h2 className='text-3xl font-bold tracking-tight'>Menu Management</h2>
+        <div className='flex gap-4'>
+          <div className='relative max-w-sm flex-1'>
+            <Search className='text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2' />
+            <Input
+              placeholder='Search menu items...'
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className='pl-10'
+            />
+          </div>
+        </div>
+
         <div className='flex gap-2'>
           <Dialog
             open={isCategoryDialogOpen}
@@ -165,18 +185,6 @@ export default function MenuPage() {
               />
             </DialogContent>
           </Dialog>
-        </div>
-      </div>
-
-      <div className='flex gap-4'>
-        <div className='relative max-w-sm flex-1'>
-          <Search className='text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2' />
-          <Input
-            placeholder='Search menu items...'
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className='pl-10'
-          />
         </div>
       </div>
 

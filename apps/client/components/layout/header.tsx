@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeToggle } from '@/components/theme-toggle';
+import ThemeToggle from '@/components/theme-toggle';
 import { useAuthStore, useUIStore } from '@/stores';
 
 import { Avatar, AvatarFallback } from '@workspace/ui/components/avatar';
@@ -14,8 +14,9 @@ const pageTitles: Record<string, string> = {
   '/tables': 'Table Management',
   '/payments': 'Payments',
   '/users': 'User Management',
-  '/settings': 'Settings',
+  '/settings': 'Restaurant Settings',
   '/login': 'Login',
+  '/analytics': 'Analytics & Reports',
 };
 
 export function Header() {
@@ -32,7 +33,7 @@ export function Header() {
       )}
     >
       <div className='flex h-full items-center justify-between px-6'>
-        <h1 className='text-foreground text-xl font-semibold tracking-tight md:text-2xl'>
+        <h1 className='text-foreground/70 text-lg font-semibold tracking-tight'>
           {title}
         </h1>
         <div className='flex items-center gap-2'>

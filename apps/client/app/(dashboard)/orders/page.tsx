@@ -12,8 +12,8 @@ import {
   useUpdateOrderStatus,
 } from '@/hooks';
 import { useSettings } from '@/hooks/use-settings';
-import { OrderStatus } from '@/lib/types';
 import type { CreateOrderInput, Order } from '@/lib/types';
+import { OrderStatus } from '@/lib/types';
 import { formatCurrency, formatDateTime, getStatusColor } from '@/lib/utils';
 import { useOrderStore } from '@/stores';
 
@@ -136,7 +136,7 @@ export default function OrdersPage() {
   };
 
   const OrderCard = ({ order }: { order: Order }) => (
-    <Card className='mb-4'>
+    <Card className='mb-4 py-0'>
       <CardContent className='p-4'>
         <div className='flex items-start justify-between'>
           <div>
@@ -173,7 +173,7 @@ export default function OrdersPage() {
                 View
               </Button>
             </DialogTrigger>
-            <DialogContent className='max-w-2xl'>
+            <DialogContent className='sm:max-w-3xl'>
               <DialogHeader>
                 <DialogTitle>Order Details</DialogTitle>
               </DialogHeader>
@@ -224,14 +224,6 @@ export default function OrdersPage() {
 
   return (
     <div className='space-y-8'>
-      <div>
-        <h2 className='text-foreground text-2xl font-semibold tracking-tight'>
-          Orders
-        </h2>
-        <p className='text-muted-foreground mt-1'>
-          Manage and track all orders
-        </p>
-      </div>
       <Dialog
         open={!!orderToComplete}
         onOpenChange={(open) => !open && setOrderToComplete(null)}

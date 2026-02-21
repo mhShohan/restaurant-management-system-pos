@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeToggle } from '@/components/theme-toggle';
+import ThemeToggle from '@/components/theme-toggle';
 import { useLogin } from '@/hooks/use-auth';
 
 import { Button } from '@workspace/ui/components/button';
@@ -86,6 +86,7 @@ export default function LoginPage() {
               <Label htmlFor='password'>Password</Label>
               <Input
                 id='password'
+                type='password'
                 placeholder='Enter your password'
                 {...register('password', { required: 'Password is required' })}
                 disabled={loginMutation.isPending}

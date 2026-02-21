@@ -16,11 +16,11 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <Header />
       <main
         className={cn(
-          'min-h-screen pt-16 transition-all duration-300',
+          'pt-16 transition-all duration-300',
           sidebarOpen ? 'pl-64' : 'pl-16'
         )}
       >
-        <div className='min-h-screen p-6 lg:p-8'>{children}</div>
+        <div className='p-6 lg:p-8'>{children}</div>
       </main>
     </div>
   );

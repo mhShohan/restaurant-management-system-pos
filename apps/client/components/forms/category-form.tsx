@@ -10,6 +10,7 @@ import {
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
+import { ScrollArea } from '@workspace/ui/components/scroll-area';
 import { toast } from '@workspace/ui/components/sonner';
 import { Loader2, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -138,7 +139,7 @@ export function CategoryForm() {
 
       <div className='space-y-2'>
         <Label>Existing Categories</Label>
-        <div className='max-h-75 space-y-2 overflow-y-auto'>
+        <ScrollArea className='h-50 space-y-2 overflow-y-auto'>
           {isLoading ? (
             <div className='py-4 text-center'>Loading...</div>
           ) : (
@@ -176,7 +177,7 @@ export function CategoryForm() {
               </div>
             ))
           )}
-        </div>
+        </ScrollArea>
       </div>
     </div>
   );

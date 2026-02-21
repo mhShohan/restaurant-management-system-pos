@@ -8,6 +8,7 @@ import { Button } from '@workspace/ui/components/button';
 import { ScrollArea } from '@workspace/ui/components/scroll-area';
 import { cn } from '@workspace/ui/lib/utils';
 import {
+  ChartNoAxesCombinedIcon,
   ChevronLeft,
   ChevronRight,
   ClipboardList,
@@ -32,6 +33,17 @@ const navItems: {
     label: 'Dashboard',
     path: '/',
     icon: LayoutDashboard,
+    roles: [
+      UserRole.ADMIN,
+      UserRole.CASHIER,
+      UserRole.WAITER,
+      UserRole.KITCHEN,
+    ],
+  },
+  {
+    label: 'Analytics',
+    path: '/analytics',
+    icon: ChartNoAxesCombinedIcon,
     roles: [
       UserRole.ADMIN,
       UserRole.CASHIER,

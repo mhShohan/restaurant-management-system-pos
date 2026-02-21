@@ -1,15 +1,6 @@
 'use client';
 
 import {
-  HourlyOrdersChart,
-  OrderStatusChart,
-  PaymentMethodChart,
-  RevenueTrendChart,
-  SalesByCategoryChart,
-  TopSellingItemsChart,
-  WeeklyComparisonCard,
-} from '@/components/charts';
-import {
   useActiveOrders,
   useDashboardStats,
   useTodayOrders,
@@ -27,13 +18,6 @@ import {
 import { ScrollArea } from '@workspace/ui/components/scroll-area';
 import { Skeleton } from '@workspace/ui/components/skeleton';
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@workspace/ui/components/tabs';
-import {
-  BarChart3,
   CheckCircle,
   ChefHat,
   Clock,
@@ -106,15 +90,6 @@ export default function DashboardPage() {
 
   return (
     <div className='space-y-8'>
-      <div>
-        <h2 className='text-foreground text-2xl font-semibold tracking-tight'>
-          Dashboard
-        </h2>
-        <p className='text-muted-foreground mt-1'>
-          Overview of your restaurant today
-        </p>
-      </div>
-
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
         <StatCard
           title="Today's Sales"
@@ -262,56 +237,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       )}
-
-      {/* Analytics Section */}
-      <div className='space-y-6'>
-        <div className='flex items-center gap-2'>
-          <BarChart3 className='text-primary h-6 w-6' />
-          <h2 className='text-xl font-semibold tracking-tight'>
-            Analytics &amp; Reports
-          </h2>
-        </div>
-
-        <Tabs defaultValue='overview' className='space-y-6'>
-          <TabsList>
-            <TabsTrigger value='overview'>Overview</TabsTrigger>
-            <TabsTrigger value='sales'>Sales</TabsTrigger>
-            <TabsTrigger value='orders'>Orders</TabsTrigger>
-            <TabsTrigger value='items'>Top Items</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value='overview' className='space-y-6'>
-            <WeeklyComparisonCard />
-            <div className='grid gap-6 lg:grid-cols-2'>
-              <RevenueTrendChart days={7} title='Revenue Trend (7 Days)' />
-              <SalesByCategoryChart />
-            </div>
-            <div className='grid gap-6 lg:grid-cols-2'>
-              <PaymentMethodChart />
-              <OrderStatusChart />
-            </div>
-          </TabsContent>
-
-          <TabsContent value='sales' className='space-y-6'>
-            <RevenueTrendChart days={30} title='Revenue Trend (30 Days)' />
-            <div className='grid gap-6 lg:grid-cols-2'>
-              <SalesByCategoryChart />
-              <PaymentMethodChart />
-            </div>
-          </TabsContent>
-
-          <TabsContent value='orders' className='space-y-6'>
-            <div className='grid gap-6 lg:grid-cols-2'>
-              <HourlyOrdersChart />
-              <OrderStatusChart />
-            </div>
-          </TabsContent>
-
-          <TabsContent value='items' className='space-y-6'>
-            <TopSellingItemsChart limit={10} />
-          </TabsContent>
-        </Tabs>
-      </div>
     </div>
   );
 }

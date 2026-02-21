@@ -142,7 +142,7 @@ export function MenuItemForm({
           />
           <Label htmlFor='isAvailable'>Available</Label>
         </div>
-        <div className='flex items-center gap-2'>
+        {/* <div className='flex items-center gap-2'>
           <Switch
             id='isVeg'
             checked={formData.isVeg}
@@ -151,7 +151,7 @@ export function MenuItemForm({
             }
           />
           <Label htmlFor='isVeg'>Vegetarian</Label>
-        </div>
+        </div> */}
       </div>
 
       <div className='space-y-2'>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useSettings, useUpdateSettings } from '@/hooks';
+import { RestaurantSettings } from '@/lib/types';
 
 import { Button } from '@workspace/ui/components/button';
 import {
@@ -22,10 +23,10 @@ import {
   Store,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { FieldValues, useForm } from 'react-hook-form';
 
 export default function SettingsPage() {
   const { data: settings, isLoading } = useSettings();
-  const updateMutation = useUpdateSettings();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -52,25 +53,6 @@ export default function SettingsPage() {
     }
   }, [settings]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await updateMutation.mutateAsync({
-        name: formData.name,
-        address: formData.address,
-        phone: formData.phone,
-        email: formData.email,
-        taxPercentage: parseFloat(formData.taxPercentage),
-        serviceChargePercentage: parseFloat(formData.serviceChargePercentage),
-        currency: formData.currency,
-      });
-      toast.success('Settings updated successfully');
-    } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      toast.error(err.response?.data?.message ?? 'Failed to update settings');
-    }
-  };
-
   if (isLoading) {
     return (
       <div className='flex h-64 items-center justify-center'>
@@ -81,14 +63,47 @@ export default function SettingsPage() {
 
   return (
     <div className='space-y-6'>
-      <div className='flex items-center justify-between'>
-        <h2 className='text-3xl font-bold tracking-tight'>
-          Restaurant Settings
-        </h2>
-      </div>
+      <Form settings={settings!} />
+    </div>
+  );
+}
 
-      <form onSubmit={handleSubmit} className='space-y-6'>
-        <Card>
+const Form = ({ settings }: { settings: RestaurantSettings }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: settings?.name ?? '',
+      address: settings?.address ?? '',
+      phone: settings?.phone ?? '',
+      email: settings?.email ?? '',
+      taxPercentage: settings?.taxPercentage?.toString() ?? '5',
+      serviceChargePercentage:
+        settings?.serviceChargePercentage?.toString() ?? '0',
+      currency: settings?.currency ?? 'USD',
+    },
+  });
+  const updateMutation = useUpdateSettings();
+
+  const onSubmit = async (data: FieldValues) => {
+    try {
+      await updateMutation.mutateAsync({
+        ...data,
+        taxPercentage: parseFloat(data.taxPercentage),
+        serviceChargePercentage: parseFloat(data.serviceChargePercentage),
+      });
+      toast.success('Settings updated successfully');
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } };
+      toast.error(err.response?.data?.message ?? 'Failed to update settings');
+    }
+  };
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className='space-y-6'>
+      <div className='flex gap-4'>
+        <Card className='flex-1'>
           <CardHeader>
             <CardTitle className='flex items-center gap-2'>
               <Store className='h-5 w-5' />
@@ -99,12 +114,10 @@ export default function SettingsPage() {
             <div>
               <Label>Restaurant Name *</Label>
               <Input
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
+                {...register('name', {
+                  required: 'Restaurant name is required',
+                })}
                 placeholder='Your Restaurant Name'
-                required
               />
             </div>
             <div>
@@ -112,13 +125,7 @@ export default function SettingsPage() {
                 <MapPin className='h-4 w-4' />
                 Address
               </Label>
-              <Input
-                value={formData.address}
-                onChange={(e) =>
-                  setFormData({ ...formData, address: e.target.value })
-                }
-                placeholder='Full address'
-              />
+              <Input {...register('address')} placeholder='Full address' />
             </div>
             <div className='grid grid-cols-2 gap-4'>
               <div>
@@ -126,13 +133,7 @@ export default function SettingsPage() {
                   <Phone className='h-4 w-4' />
                   Phone
                 </Label>
-                <Input
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                  placeholder='+1 234 567 890'
-                />
+                <Input {...register('phone')} placeholder='+1 234 567 890' />
               </div>
               <div>
                 <Label className='flex items-center gap-2'>
@@ -141,10 +142,7 @@ export default function SettingsPage() {
                 </Label>
                 <Input
                   type='email'
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
+                  {...register('email')}
                   placeholder='contact@restaurant.com'
                 />
               </div>
@@ -152,7 +150,7 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className='flex-1'>
           <CardHeader>
             <CardTitle className='flex items-center gap-2'>
               <DollarSign className='h-5 w-5' />
@@ -160,7 +158,7 @@ export default function SettingsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className='space-y-4'>
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='space-y-4'>
               <div>
                 <Label className='flex items-center gap-2'>
                   <Percent className='h-4 w-4' />
@@ -171,10 +169,7 @@ export default function SettingsPage() {
                   min={0}
                   max={100}
                   step='0.01'
-                  value={formData.taxPercentage}
-                  onChange={(e) =>
-                    setFormData({ ...formData, taxPercentage: e.target.value })
-                  }
+                  {...register('taxPercentage')}
                   placeholder='5'
                 />
               </div>
@@ -188,23 +183,14 @@ export default function SettingsPage() {
                   min={0}
                   max={100}
                   step='0.01'
-                  value={formData.serviceChargePercentage}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      serviceChargePercentage: e.target.value,
-                    })
-                  }
+                  {...register('serviceChargePercentage')}
                   placeholder='0'
                 />
               </div>
               <div>
                 <Label>Currency</Label>
                 <Input
-                  value={formData.currency}
-                  onChange={(e) =>
-                    setFormData({ ...formData, currency: e.target.value })
-                  }
+                  {...register('currency')}
                   placeholder='USD'
                   maxLength={3}
                 />
@@ -212,22 +198,21 @@ export default function SettingsPage() {
             </div>
           </CardContent>
         </Card>
-
-        <Button
-          type='submit'
-          className='w-full'
-          disabled={updateMutation.isPending}
-        >
-          {updateMutation.isPending ? (
-            <>
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              Saving...
-            </>
-          ) : (
-            'Save Settings'
-          )}
-        </Button>
-      </form>
-    </div>
+      </div>
+      <Button
+        type='submit'
+        className='w-full'
+        disabled={updateMutation.isPending}
+      >
+        {updateMutation.isPending ? (
+          <>
+            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+            Saving...
+          </>
+        ) : (
+          'Save Settings'
+        )}
+      </Button>
+    </form>
   );
-}
+};
