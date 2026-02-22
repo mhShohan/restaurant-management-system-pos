@@ -9,9 +9,9 @@ import { Switch } from '@workspace/ui/components/switch';
 import { Textarea } from '@workspace/ui/components/textarea';
 import { cn } from '@workspace/ui/lib/utils';
 import { Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Controller, FieldValues, useForm } from 'react-hook-form';
 
-interface MenuItemFormProps {
+interface Props {
   initialData?: {
     name?: string;
     description?: string;
@@ -25,56 +25,38 @@ interface MenuItemFormProps {
   isLoading: boolean;
 }
 
-export function MenuItemForm({
-  initialData,
-  onSubmit,
-  isLoading,
-}: MenuItemFormProps) {
+const MenuItemForm = ({ initialData, isLoading, onSubmit }: Props) => {
   const { data: categories } = useCategories();
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    price: '',
-    category: '',
-    isAvailable: true,
-    isVeg: true,
-    imageUrl: '',
+  const { register, handleSubmit, control } = useForm({
+    defaultValues: {
+      name: initialData?.name ?? '',
+      description: initialData?.description ?? '',
+      price: initialData?.price?.toString() ?? '',
+      category:
+        typeof initialData?.category === 'object'
+          ? initialData.category._id
+          : (initialData?.category ?? ''),
+      isAvailable: initialData?.isAvailable ?? true,
+      isVeg: initialData?.isVeg ?? true,
+      imageUrl: initialData?.imageUrl ?? '',
+    },
   });
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData({
-        name: initialData.name ?? '',
-        description: initialData.description ?? '',
-        price: initialData.price?.toString() ?? '',
-        category:
-          typeof initialData.category === 'object'
-            ? initialData.category._id
-            : (initialData.category ?? ''),
-        isAvailable: initialData.isAvailable ?? true,
-        isVeg: initialData.isVeg ?? true,
-        imageUrl: initialData.imageUrl ?? '',
-      });
-    }
-  }, [initialData]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmitForm = (data: FieldValues) => {
     onSubmit({
-      ...formData,
-      price: parseFloat(formData.price),
+      ...data,
+      price: parseFloat(data.price),
     });
   };
 
   return (
-    <form onSubmit={handleSubmit} className='space-y-4'>
+    <form onSubmit={handleSubmit(onSubmitForm)} className='space-y-4'>
       <div className='grid grid-cols-2 gap-4'>
         <div className='space-y-2'>
           <Label htmlFor='name'>Name *</Label>
           <Input
             id='name'
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            {...register('name', { required: true })}
             placeholder='Item name'
             required
           />
@@ -86,10 +68,7 @@ export function MenuItemForm({
             type='number'
             step='0.01'
             min='0'
-            value={formData.price}
-            onChange={(e) =>
-              setFormData({ ...formData, price: e.target.value })
-            }
+            {...register('price', { required: true })}
             placeholder='0.00'
             required
           />
@@ -100,10 +79,7 @@ export function MenuItemForm({
         <Label htmlFor='category'>Category *</Label>
         <select
           id='category'
-          value={formData.category}
-          onChange={(e) =>
-            setFormData({ ...formData, category: e.target.value })
-          }
+          {...register('category', { required: true })}
           className={cn(
             'border-input shadow-xs focus-visible:ring-ring w-full rounded-md border bg-transparent px-3 py-2 text-sm outline-none focus-visible:ring-2'
           )}
@@ -122,10 +98,7 @@ export function MenuItemForm({
         <Label htmlFor='description'>Description</Label>
         <Textarea
           id='description'
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
+          {...register('description')}
           placeholder='Item description'
           rows={3}
         />
@@ -133,35 +106,26 @@ export function MenuItemForm({
 
       <div className='flex gap-6'>
         <div className='flex items-center gap-2'>
-          <Switch
-            id='isAvailable'
-            checked={formData.isAvailable}
-            onCheckedChange={(checked) =>
-              setFormData({ ...formData, isAvailable: checked })
-            }
+          <Controller
+            name='isAvailable'
+            control={control}
+            render={({ field }) => (
+              <Switch
+                id='isAvailable'
+                checked={field.value}
+                onCheckedChange={field.onChange}
+              />
+            )}
           />
           <Label htmlFor='isAvailable'>Available</Label>
         </div>
-        {/* <div className='flex items-center gap-2'>
-          <Switch
-            id='isVeg'
-            checked={formData.isVeg}
-            onCheckedChange={(checked) =>
-              setFormData({ ...formData, isVeg: checked })
-            }
-          />
-          <Label htmlFor='isVeg'>Vegetarian</Label>
-        </div> */}
       </div>
 
       <div className='space-y-2'>
         <Label htmlFor='imageUrl'>Image URL</Label>
         <Input
           id='imageUrl'
-          value={formData.imageUrl}
-          onChange={(e) =>
-            setFormData({ ...formData, imageUrl: e.target.value })
-          }
+          {...register('imageUrl')}
           placeholder='https://example.com/image.jpg'
         />
       </div>
@@ -180,4 +144,6 @@ export function MenuItemForm({
       </Button>
     </form>
   );
-}
+};
+
+export default MenuItemForm;

@@ -158,16 +158,6 @@ export function Sidebar() {
           </nav>
         </ScrollArea>
         <div className='border-sidebar-border border-t p-3'>
-          {sidebarOpen && user && (
-            <div className='mb-3 px-2'>
-              <p className='text-sidebar-foreground text-sm font-medium'>
-                {user.name}
-              </p>
-              <p className='text-sidebar-foreground/60 text-xs capitalize'>
-                {user.role}
-              </p>
-            </div>
-          )}
           <Button
             variant='ghost'
             size='sm'

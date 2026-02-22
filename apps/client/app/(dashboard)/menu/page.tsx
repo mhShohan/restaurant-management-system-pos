@@ -1,7 +1,7 @@
 'use client';
 
 import { CategoryForm } from '@/components/forms/category-form';
-import { MenuItemForm } from '@/components/forms/menu-item-form';
+import MenuItemForm from '@/components/forms/menu-item-form';
 import {
   useCategories,
   useCreateMenuItem,
@@ -59,9 +59,7 @@ export default function MenuPage() {
 
   const handleCreateItem = async (data: Record<string, unknown>) => {
     try {
-      await createItemMutation.mutateAsync(
-        data as Parameters<typeof createItemMutation.mutateAsync>[0]
-      );
+      await createItemMutation.mutateAsync(data as any);
       toast.success('Menu item created successfully');
       setIsItemDialogOpen(false);
     } catch (error: unknown) {
@@ -75,9 +73,7 @@ export default function MenuPage() {
     try {
       await updateItemMutation.mutateAsync({
         id: editingItem._id,
-        data: data as Parameters<
-          typeof updateItemMutation.mutateAsync
-        >[0]['data'],
+        data: data as any,
       });
       toast.success('Menu item updated successfully');
       setIsItemDialogOpen(false);
